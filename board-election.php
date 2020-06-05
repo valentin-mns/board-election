@@ -17,6 +17,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 define ('B_ELECTION_VERSION' , '1.0.1');
 define ('TEXTDOMAIN' , 'board-election');
 
+if(!defined('B_ELECTION_URL')) define('B_ELECTION_URL', plugin_dir_url( __FILE__ ));
+
 // Activate translations
 add_action('plugins_loaded', 'b_elect_load_textdomain');
 function b_elect_load_textdomain() {
@@ -348,6 +350,9 @@ add_action( 'init', 'board_election_cookie');
 
 add_shortcode( 'board_election', 'shortcode_b_election' );
 function shortcode_b_election() {
+	
+	wp_enqueue_script( 'jquery-coookies', B_ELECTION_URL . 'jquery.cookies.js', array( 'jquery' ) );
+	
 	$b_election_support_email = get_option('b-election-support-email', false);
 	if (!$b_election_support_email) { $b_election_support_email = get_option( 'admin_email', 'No email' ); }
 	if ( function_exists('icl_object_id') ) {
